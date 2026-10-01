@@ -28,6 +28,7 @@ Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription:
 Source: "..\target\release\DirMap.exe"; DestDir: "{app}"; DestName: "TreeMap.exe"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\BRANDING.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\docs\*"; DestDir: "{app}\docs"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
 Source: "..\open-source-core\LICENSE"; DestDir: "{app}"; DestName: "LICENSE-open-source-core.txt"; Flags: ignoreversion
 

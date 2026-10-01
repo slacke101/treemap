@@ -15,6 +15,13 @@
 
 TreeMap helps you find the folders and files taking up space, without uploading your scan or reading file contents.
 
+## See it in action
+
+<div align="center">
+	<a href="docs/vid1.mp4"><img src="docs/ss1.png" alt="Watch the TreeMap demo video" width="840"></a>
+	<p><sub><a href="docs/vid1.mp4">Watch the demo video</a></sub></p>
+</div>
+
 ## Start in 3 steps
 
 1. [Download the TreeMap installer](https://github.com/slacke101/treemap/releases/latest/download/TreeMap-Setup-x64.exe).
