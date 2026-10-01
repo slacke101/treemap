@@ -21,6 +21,40 @@ jobs:
       - name: Build release executable
         run: cargo build --locked --release --package DirMap
 
+      - name: Sign release executable when a certificate is configured
+        shell: pwsh
+        env:
+          WINDOWS_SIGNING_CERTIFICATE_PFX: ${{ secrets.WINDOWS_SIGNING_CERTIFICATE_PFX }}
+          WINDOWS_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_SIGNING_CERTIFICATE_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:WINDOWS_SIGNING_CERTIFICATE_PFX)) {
+            Write-Output "No code-signing certificate configured; release will be unsigned."
+            exit 0
+          }
+          if ([string]::IsNullOrWhiteSpace($env:WINDOWS_SIGNING_CERTIFICATE_PASSWORD)) {
+            throw "WINDOWS_SIGNING_CERTIFICATE_PASSWORD is required when a certificate is configured."
+          }
+
+          $certificatePath = Join-Path $env:RUNNER_TEMP 'treemap-signing.pfx'
+          try {
+            [System.IO.File]::WriteAllBytes($certificatePath, [Convert]::FromBase64String($env:WINDOWS_SIGNING_CERTIFICATE_PFX))
+            $signtool = Get-ChildItem -Path "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Filter signtool.exe -Recurse |
+              Where-Object { $_.Directory.Name -eq 'x64' } |
+              Sort-Object FullName -Descending |
+              Select-Object -First 1
+            if (-not $signtool) {
+              throw "Windows SDK signtool.exe was not found."
+            }
+
+            & $signtool.FullName sign /fd SHA256 /f $certificatePath /p $env:WINDOWS_SIGNING_CERTIFICATE_PASSWORD /tr http://timestamp.digicert.com /td SHA256 target\release\DirMap.exe
+            if ($LASTEXITCODE -ne 0) {
+              throw "signtool.exe failed with exit code $LASTEXITCODE."
+            }
+          }
+          finally {
+            Remove-Item -LiteralPath $certificatePath -Force -ErrorAction SilentlyContinue
+          }
+
       - name: Package Windows download
         shell: pwsh
         run: .\scripts\package-windows.ps1

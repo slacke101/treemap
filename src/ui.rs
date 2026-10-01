@@ -154,11 +154,12 @@ fn draw_splash(
     );
     frame.render_widget(
         Paragraph::new(Line::from(spectrum_spans(
-            "A Castron Product",
+            "By Castron 2024",
             spinner_frame.wrapping_mul(3).wrapping_add(90),
         )))
+        .style(Style::default().fg(Color::Gray).add_modifier(Modifier::DIM))
         .alignment(Alignment::Center),
-        centered(34, sections[4]),
+        centered(24, sections[4]),
     );
 
     let spinner = SPINNER_FRAMES[spinner_frame % SPINNER_FRAMES.len()];
@@ -285,20 +286,27 @@ fn draw_terms(frame: &mut Frame, scroll: u16, first_run: bool, agreed: bool, err
     let accent = Color::Rgb(91, 210, 177);
     let panel_bg = Color::Rgb(13, 20, 26);
     let panel_border = Color::Rgb(53, 72, 81);
-    let header = Paragraph::new(Line::from(vec![
-        Span::styled("A Castron Product", Style::default().fg(accent)),
-        Span::styled("   /   ", Style::default().fg(Color::DarkGray)),
-        Span::styled(
-            "TREEMAP  TERMS & PRIVACY",
-            Style::default().fg(Color::White),
-        ),
-        Span::styled(
-            error
-                .map(|message| format!("  |  {message}"))
-                .unwrap_or_default(),
-            Style::default().fg(Color::Yellow),
-        ),
-    ]))
+    let header = Paragraph::new(vec![
+        Line::from(Span::styled(
+            "TREEMAP",
+            Style::default()
+                .fg(Color::White)
+                .add_modifier(Modifier::BOLD),
+        )),
+        Line::from(vec![
+            Span::styled(
+                "By Castron 2024",
+                Style::default().fg(Color::Gray).add_modifier(Modifier::DIM),
+            ),
+            Span::styled("   /   TERMS & PRIVACY", Style::default().fg(accent)),
+            Span::styled(
+                error
+                    .map(|message| format!("  |  {message}"))
+                    .unwrap_or_default(),
+                Style::default().fg(Color::Yellow),
+            ),
+        ]),
+    ])
     .block(
         Block::default()
             .borders(Borders::BOTTOM)
@@ -573,7 +581,7 @@ fn draw_browser(
     let sections = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(3),
+            Constraint::Length(4),
             Constraint::Length(3),
             Constraint::Min(5),
             Constraint::Length(tree_icon.map(|icon| icon.size().height).unwrap_or(3).max(3)),
@@ -597,18 +605,17 @@ fn draw_browser(
         .or_else(|| listing.then(|| "  |  Reading folder...".to_string()))
         .or_else(|| stats_pending.then(|| format!("  |  Folder sizes {stats_done}/{stats_total}")))
         .unwrap_or_default();
-    let mut brand_line = vec![
-        Span::styled("A Castron Product", Style::default().fg(accent)),
-        Span::raw("   "),
-    ];
-    brand_line.extend(spectrum_spans("TREEMAP", brand_phase));
     let context = if status.is_empty() {
         breadcrumb
     } else {
         format!("{status}    {breadcrumb}")
     };
     let header = Paragraph::new(vec![
-        Line::from(brand_line),
+        Line::from(spectrum_spans("TREEMAP", brand_phase)),
+        Line::from(Span::styled(
+            "By Castron 2024",
+            Style::default().fg(Color::Gray).add_modifier(Modifier::DIM),
+        )),
         Line::from(Span::styled(
             context,
             if status.is_empty() {

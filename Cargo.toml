@@ -13,3 +13,6 @@ ratatui = "0.30.2"
 image = { version = "0.25", default-features = false, features = ["png"] }
 ratatui-image = { version = "11.1", default-features = false, features = ["crossterm"] }
 open-source-core = { path = "open-source-core" }
+
+[build-dependencies]
+winres = "0.1.12"
