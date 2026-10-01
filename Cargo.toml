@@ -1,13 +1,15 @@
 [package]
-name = "open-source-core"
+name = "DirMap"
 version = "0.1.0"
 edition = "2024"
-description = "Local-first filesystem scanning, indexing, and safe file actions"
-readme = "README.md"
-license = "MIT"
-repository = "https://github.com/slacke101/treemap"
+
+[workspace]
+members = ["open-source-core"]
+resolver = "3"
 
 [dependencies]
-rusqlite = { version = "0.37", features = ["bundled"] }
-trash = "5.2"
-windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_Storage_FileSystem"] }
+crossterm = "0.25"
+ratatui = "0.30.2"
+image = { version = "0.25", default-features = false, features = ["png"] }
+ratatui-image = { version = "11.1", default-features = false, features = ["crossterm"] }
+open-source-core = { path = "open-source-core" }

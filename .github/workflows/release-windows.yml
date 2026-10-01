@@ -1,0 +1,32 @@
+name: Release Windows app
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  windows-release:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release executable
+        run: cargo build --locked --release --package DirMap
+
+      - name: Package Windows download
+        shell: pwsh
+        run: .\scripts\package-windows.ps1
+
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$env:GITHUB_REF_NAME" "dist/TreeMap-windows-x86_64.zip" "dist/TreeMap-windows-x86_64.zip.sha256" --generate-notes --verify-tag
