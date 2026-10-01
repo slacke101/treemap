@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing version tag to rebuild and publish
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -14,6 +20,8 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag || github.ref }}
 
       - name: Install stable Rust
         uses: dtolnay/rust-toolchain@stable
@@ -65,8 +73,22 @@ jobs:
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-        run: >-
-          gh release create "$env:GITHUB_REF_NAME"
-          "dist/TreeMap-Setup-x64.exe" "dist/TreeMap-Setup-x64.exe.sha256"
-          "dist/TreeMap-windows-x86_64.zip" "dist/TreeMap-windows-x86_64.zip.sha256"
-          --generate-notes --verify-tag
+          RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+        run: |
+          $assets = @(
+            'dist/TreeMap-Setup-x64.exe',
+            'dist/TreeMap-Setup-x64.exe.sha256',
+            'dist/TreeMap-windows-x86_64.zip',
+            'dist/TreeMap-windows-x86_64.zip.sha256'
+          )
+
+          gh release view $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY *> $null
+          $releaseExists = $LASTEXITCODE -eq 0
+          if ($releaseExists) {
+            gh release upload $env:RELEASE_TAG @assets --repo $env:GITHUB_REPOSITORY --clobber
+          } else {
+            gh release create $env:RELEASE_TAG @assets --repo $env:GITHUB_REPOSITORY --generate-notes --verify-tag
+          }
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to publish assets for release $env:RELEASE_TAG."
+          }
