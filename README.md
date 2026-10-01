@@ -18,8 +18,9 @@ TreeMap helps you find the folders and files taking up space, without uploading 
 ## See it in action
 
 <div align="center">
-	<a href="docs/vid1.mp4"><img src="docs/ss1.png" alt="Watch the TreeMap demo video" width="840"></a>
-	<p><sub><a href="docs/vid1.mp4">Watch the demo video</a></sub></p>
+	<video controls preload="metadata" width="840" poster="docs/ss1.png" src="docs/vid1.mp4">
+		Your browser does not support embedded video. <a href="docs/vid1.mp4">Watch the demo video</a>.
+	</video>
 </div>
 
 ## Start in 3 steps
