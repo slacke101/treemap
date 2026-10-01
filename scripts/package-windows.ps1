@@ -25,6 +25,7 @@ try {
     New-Item -ItemType Directory -Path $stagePath | Out-Null
     Copy-Item -LiteralPath $binaryPath -Destination (Join-Path $stagePath 'TreeMap.exe')
     Copy-Item -LiteralPath (Join-Path $repositoryRoot 'README.md') -Destination $stagePath
+    Copy-Item -LiteralPath (Join-Path $repositoryRoot 'BRANDING.md') -Destination $stagePath
     Copy-Item -LiteralPath (Join-Path $repositoryRoot 'LICENSE') -Destination (Join-Path $stagePath 'LICENSE.txt')
     Copy-Item -LiteralPath (Join-Path $repositoryRoot 'open-source-core\LICENSE') -Destination (Join-Path $stagePath 'LICENSE-open-source-core.txt')
 

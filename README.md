@@ -67,4 +67,4 @@ The package script writes `dist/TreeMap-windows-x86_64.zip` and a SHA-256 checks
 
 ## License
 
-The app and core are MIT-licensed. See [LICENSE](LICENSE) and [open-source-core/LICENSE](open-source-core/LICENSE).
+The app and core source code are released under the MIT License. Castron names, logos, product names, and visual branding are not licensed under MIT; see [BRANDING.md](BRANDING.md).

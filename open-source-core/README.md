@@ -15,3 +15,7 @@ The crate contains no terminal UI, product consent flow, account system, licensi
 - `file_actions`: shared protected-path checks and Recycle Bin/permanent removal.
 
 The default index location can be overridden with `DIRMAP_DATA_DIR`. Use `cargo test --workspace` from the repository root to validate the app and core together.
+
+## License and branding
+
+The core source code is licensed under MIT. Castron's name, product names, logos, and visual identity are not licensed under MIT; see [BRANDING.md](../BRANDING.md).
