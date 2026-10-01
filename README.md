@@ -23,22 +23,25 @@ TreeMap helps you find the folders and files taking up space, without uploading 
 
 ## Explore the app
 
-<div align="center">
-	<p><strong>1. Drive overview</strong></p>
-	<img src="docs/s1.png" alt="TreeMap drive overview showing indexed drives, space usage, and recent files" width="920">
+**1. Drive overview**
 
-	<p><strong>2. Browse a folder</strong></p>
-	<img src="docs/s2.png" alt="TreeMap folder browser showing contents ordered by size" width="920">
+![TreeMap drive overview showing indexed drives, space usage, and recent files](docs/s1.png)
 
-	<p><strong>3. Compare logical size and physical space</strong></p>
-	<img src="docs/s3.png" alt="TreeMap size view showing proportional folder size bars and physical space" width="920">
+**2. Browse a folder**
 
-	<p><strong>4. Review file actions</strong></p>
-	<img src="docs/s4.png" alt="TreeMap file action prompt showing recycle and permanent removal choices" width="920">
+![TreeMap folder browser showing contents ordered by size](docs/s2.png)
 
-	<p><strong>5. Review terms and privacy</strong></p>
-	<img src="docs/s5.png" alt="TreeMap terms and privacy screen" width="920">
-</div>
+**3. Compare logical size and physical space**
+
+![TreeMap size view showing proportional folder size bars and physical space](docs/s3.png)
+
+**4. Review file actions**
+
+![TreeMap file action prompt showing recycle and permanent removal choices](docs/s4.png)
+
+**5. Review terms and privacy**
+
+![TreeMap terms and privacy screen](docs/s5.png)
 
 ## Start in 3 steps
 
