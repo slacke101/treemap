@@ -1,55 +1,71 @@
 # TreeMap
 
-TreeMap is a local-first terminal app for exploring drive and folder space usage. It indexes filesystem metadata in a local SQLite database and keeps logical file sizes separate from physical drive capacity.
+**Find what is using your drive space.**
 
-## Features
+TreeMap is a keyboard-driven Windows app for exploring drives, folders, and files by size.
 
-- Browse drives, folders, and files, with folder totals and largest-first ordering.
-- Press `b` to toggle proportional logical-size bars and percentage shares.
-- Press `d` on a selected file or folder to open its action prompt. Press `r` to move it to the Recycle Bin, or `p` and then `y` to confirm permanent deletion.
-- View modified and accessed timestamps. Filesystem access times may be unavailable or delayed.
-- Use the local index for subsequent browsing; TreeMap does not read file contents or send scan data over a network.
+[Download TreeMap for Windows](https://github.com/slacke101/treemap/releases/latest/download/TreeMap-windows-x86_64.zip) | [See all releases](https://github.com/slacke101/treemap/releases)
 
-## Build and Run
+**Windows 10/11 | 64-bit | Portable ZIP | Free and open source**
 
-Install a current stable Rust toolchain, then run:
+## Get started
+
+1. Download the ZIP above.
+2. Extract it to a folder.
+3. Open `TreeMap.exe`.
+
+No installer or Rust toolchain is needed. The first scan can take a while on large drives.
+
+## What you can do
+
+- Browse drives, folders, and files, with the largest items shown first.
+- Compare indexed file sizes with physical drive capacity and free space.
+- View recent files and modified or accessed timestamps.
+- Use the local index for faster browsing later.
+
+## Keyboard guide
+
+| Key | Action |
+| --- | --- |
+| `Up` / `Down`, `j` / `k` | Move through the list |
+| `Enter` | Open a drive or folder |
+| `Backspace`, `Left` | Go up one folder |
+| `b` | Toggle size-share bars and percentages |
+| `r` | Refresh the drive scan |
+| `d` | Open actions for the selected item |
+| `q` | Quit |
+
+In the action prompt, `r` moves an item to the Recycle Bin. Choose `p`, then press `y` to permanently delete it. Permanent deletion may be unrecoverable; review the full path before confirming.
+
+## Privacy and safety
+
+TreeMap reads filesystem metadata such as names, types, sizes, and timestamps. It does not read file contents or send scan data over a network. Its local SQLite index is not encrypted, so protect it like other files in your account.
+
+Access times may be disabled, delayed, or imprecise. Links are not followed. Some system and application paths are protected from removal, but no path list is perfect; always check the target before taking an action.
+
+## Troubleshooting
+
+- **"Database or disk is full"**: free space on the drive holding the local index, or set `DIRMAP_DATA_DIR` to a folder on a drive with more room.
+- **Windows shows an unknown-publisher warning**: this release is not code-signed. Only run a copy downloaded from the official release page above.
+
+## For developers
+
+Install a current stable Rust toolchain, then run these commands from the repository root:
 
 ```powershell
 cargo run --release
+cargo test --workspace
 ```
 
-To build the Windows executable without launching it:
-
-```powershell
-cargo build --release --package DirMap
-```
-
-The executable is written to `target/release/DirMap.exe` unless `CARGO_TARGET_DIR` is set.
-
-## Download and Launch on Windows
-
-Download `TreeMap-windows-x86_64.zip` from the project's GitHub Releases page, extract it, and launch `TreeMap.exe`. The release package includes the app, this README, and both license files; Rust is not required to run it.
-
-To create the same package locally after building:
+Build and package the Windows release locally:
 
 ```powershell
 cargo build --locked --release --package DirMap
 .\scripts\package-windows.ps1
 ```
 
-This writes `dist/TreeMap-windows-x86_64.zip` and its `.sha256` checksum. Pushing a version tag such as `v0.1.0` runs the Windows release workflow and attaches both files to a GitHub Release.
-
-## Local Data
-
-The index is stored in the operating system user data directory by default. Set `DIRMAP_DATA_DIR` to choose a different location. The index is not encrypted; its privacy depends on operating-system account and filesystem permissions.
-
-## Workspace
-
-- `src/`: TreeMap terminal app, consent flow, and interface.
-- `open-source-core/`: reusable filesystem scanner, local index, and guarded file actions.
-
-Run `cargo test --workspace` from the repository root to test both packages.
+The executable is written to `target/release/DirMap.exe`. The package script creates `dist/TreeMap-windows-x86_64.zip` and a SHA-256 checksum. Pushing a version tag such as `v0.1.1` runs the Windows release workflow.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+The app and core are MIT-licensed. See [LICENSE](LICENSE) and [open-source-core/LICENSE](open-source-core/LICENSE).
